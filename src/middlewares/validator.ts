@@ -1,0 +1,15 @@
+import {Request, Response, NextFunction} from 'express';
+import {validationResult} from 'express-validator';
+import {handleError, ErrorHandler} from '../error';
+
+const validationHandler = (req: Request,res: Response, next: NextFunction): void => {
+    const errors = validationResult(req);
+    if(errors){
+        return next();
+    }
+
+    const err = new ErrorHandler(400, 'Invalid Field');
+    handleError(err, req, res);
+}
+
+export default validationHandler;
